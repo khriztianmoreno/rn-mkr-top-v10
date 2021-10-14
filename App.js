@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -10,17 +11,31 @@ import CharacterDetailScreen from './screens/Characters/Detail';
 import LocationsScreen from './screens/Locations';
 import EpisodesScreen from './screens/Episodes';
 
+import Logout from './components/Logout';
+
 import iconsName from './utils/icons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const DetailStack = createNativeStackNavigator();
 
-function CharacterStack() {
+function CharacterStack({ navigation }) {
   return (
     <DetailStack.Navigator>
-      <DetailStack.Screen name="Characters" component={CharactersScreen} />
-      <DetailStack.Screen name="CharDetail" component={CharacterDetailScreen} />
+      <DetailStack.Screen
+        name="Characters"
+        options={{
+          headerRight: () => <Logout {...navigation} />,
+        }}
+        component={CharactersScreen}
+      />
+      <DetailStack.Screen
+        name="CharDetail"
+        options={{
+          title: 'Detail',
+        }}
+        component={CharacterDetailScreen}
+      />
     </DetailStack.Navigator>
   );
 }

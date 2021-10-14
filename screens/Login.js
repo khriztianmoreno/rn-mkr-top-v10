@@ -1,40 +1,40 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native'
+import { Image, View, StyleSheet } from 'react-native';
 
 import LoginForm from '../components/Forms/Login';
+import logo from '../assets/logo_app.png';
 
 const Login = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <LoginForm navigation={navigation} />
+      <View style={styles.logoContainer}>
+        <Image source={logo} style={styles.image} />
+      </View>
+      <View style={styles.formContainer}>
+        <LoginForm navigation={navigation} />
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#292929",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#292929',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  text: {
-    color: "white",
-    fontSize: 30,
-    marginBottom: 10,
+  logoContainer: {
+    flex: 1,
+  },
+  formContainer: {
+    flex: 2,
   },
   image: {
     height: 300,
     width: 300,
-    resizeMode: "contain",
+    resizeMode: 'contain',
     // borderRadius: 100,
-  },
-  button: { backgroundColor: "#BB86FC", padding: 7, marginTop: 10 },
-  buttonText: { fontSize: 20, color: "#fff" },
-  thumbnail: {
-    width: 200,
-    height: 200,
-    resizeMode: "contain",
   },
 });
 
