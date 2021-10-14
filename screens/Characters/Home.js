@@ -2,10 +2,10 @@ import React from 'react';
 import { Text, View, StyleSheet, FlatList, Platform } from 'react-native';
 import debounce from 'lodash/debounce';
 
-import SearchBar from '../components/Search/SearchBar';
-import CharCard from '../components/Cards/Character';
+import SearchBar from '../../components/Search/SearchBar';
+import CharCard from '../../components/Cards/Character';
 
-const Characters = () => {
+const Characters = ({ navigation }) => {
   const [data, setData] = React.useState({
     characters: [],
     currentPage: 0,
@@ -82,7 +82,9 @@ const Characters = () => {
         ) : (
           <FlatList
             data={data.characters}
-            renderItem={({ item }) => <CharCard {...item} />}
+            renderItem={({ item }) => (
+              <CharCard {...item} router={navigation} />
+            )}
             keyExtractor={(item) => item.id}
             numColumns={2}
             ListFooterComponent={() => (
