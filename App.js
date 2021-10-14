@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome } from '@expo/vector-icons';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 
 import LoginScreen from './screens/Login';
 import CharactersScreen from './screens/Characters';
@@ -33,6 +35,38 @@ function Landing() {
 }
 
 export default function App() {
+  const registerForPushNotificationsAsync = async () => {
+    let token;
+    if (Constants.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        // The user's permission to send them push notifications
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      // he user's ExpoPushToken- if push notifications are mail, then the ExpoPushToken is the user's address.
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+    } else {
+      alert('Must use physical device for Push Notifications');
+    }
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+    return token;
+  };
+
+  React.useEffect(() => {
+    registerForPushNotificationsAsync().then((token) => console.log(token));
+  });
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
