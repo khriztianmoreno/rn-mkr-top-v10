@@ -5,7 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome } from '@expo/vector-icons';
 
 import LoginScreen from './screens/Login';
-import CharactersScreen from './screens/Characters';
+import CharactersScreen from './screens/Characters/Home';
+import CharacterDetailScreen from './screens/Characters/Detail';
 import LocationsScreen from './screens/Locations';
 import EpisodesScreen from './screens/Episodes';
 
@@ -13,6 +14,16 @@ import iconsName from './utils/icons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const DetailStack = createNativeStackNavigator();
+
+function CharacterStack() {
+  return (
+    <DetailStack.Navigator>
+      <DetailStack.Screen name="Characters" component={CharactersScreen} />
+      <DetailStack.Screen name="CharDetail" component={CharacterDetailScreen} />
+    </DetailStack.Navigator>
+  );
+}
 
 function Landing() {
   return (
@@ -25,7 +36,14 @@ function Landing() {
         },
       })}
     >
-      <Tab.Screen name="Characters" component={CharactersScreen} />
+      <Tab.Screen
+        name="CharacterStack"
+        options={{
+          headerTitle: 'Characters',
+          headerShown: false,
+        }}
+        component={CharacterStack}
+      />
       <Tab.Screen name="Episodes" component={EpisodesScreen} />
       <Tab.Screen name="Locations" component={LocationsScreen} />
     </Tab.Navigator>
